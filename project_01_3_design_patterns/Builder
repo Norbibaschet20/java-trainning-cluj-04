@@ -1,0 +1,166 @@
+
+interface CarPlan
+{
+    public void setWheels(String wheels);
+
+    public void setStructure(String structure);
+
+    public void setRoof(String roof);
+
+    public void setHood(String hood);
+}
+
+class Car implements CarPlan
+{
+
+    private String wheels;
+    private String structure;
+    private String roof;
+    private String hood;
+
+    public void setWheels(String wheels)
+    {
+        this.wheels = wheels;
+    }
+
+    public void setStructure(String structure)
+    {
+        this.structure = structure;
+    }
+
+    public void setRoof(String roof)
+    {
+        this.roof = roof;
+    }
+
+    public void setHood(String hood)
+    {
+        this.hood = hood;
+    }
+
+}
+
+
+interface CarBuilder
+{
+
+    public void buildWheels();
+
+    public void buildStructure();
+
+    public void bulidRoof();
+
+    public void buildHood();
+
+    public Car getCar();
+}
+
+class AlexCarBuilder implements CarBuilder
+{
+    private Car car;
+
+    public AlexCarBuilder()
+    {
+        this.car = new Car();
+    }
+
+    public void buildWheels()
+    {
+        car.setWheels("Alloy");
+    }
+
+    public void buildStructure()
+    {
+        car.setStructure("Green");
+    }
+
+    public void buildHood()
+    {
+        car.setInterior("Carbon");
+    }
+
+    public void bulidRoof()
+    {
+        car.setRoof("Carbon");
+    }
+
+    public Car getCar()
+    {
+        return this.car;
+    }
+}
+
+class BobCarBuilder implements CarBuilder
+{
+    private Car car;
+
+    public BobCarBuilder()
+    {
+        this.car = new Car();
+    }
+
+    public void buildWheels()
+    {
+        car.setWheels("Alloy");
+    }
+
+    public void buildStructure()
+    {
+        car.setStructure("Blue");
+    }
+
+    public void buildHood()
+    {
+        car.setHood("Wood");
+    }
+
+    public void bulidRoof()
+    {
+        car.setRoof("Wood");
+    }
+
+    public Car getCar()
+    {
+        return this.car;
+    }
+
+}
+
+class CivilEngineer
+{
+
+    private CarBuilder carBuilder;
+
+    public CivilEngineer(CarBuilder carBuilder)
+    {
+        this.carBuilder = carBuilder;
+    }
+
+    public Car getCar()
+    {
+        return this.carBuilder.getCar();
+    }
+
+    public void constructCar()
+    {
+        this.carBuilder.buildWheels();
+        this.carBuilder.buildStructure();
+        this.carBuilder.bulidRoof();
+        this.carBuilder.buildHood();
+    }
+}
+
+class Builder
+{
+    public static void main(String[] args)
+    {
+        CarBuilder AlexBuilder = new AlexCarBuilder();
+        CivilEngineer engineer = new CivilEngineer(AlexBuilder);
+
+        engineer.constructCar();
+
+        Car car = engineer.getCar();
+
+        System.out.println("Builder constructed: "+ car);
+    }
+}

@@ -1,0 +1,92 @@
+public class MyModel {
+    public static final String NAME = "Name";
+    public static final String WEIGHT = "Weight";
+
+    private List<Animal> animals = new ArrayList<Animal>();
+    private List<PropertyChangeListener> listener = new ArrayList<PropertyChangeListener>();
+
+    public class Animal {
+
+        private String Name;
+
+        private String Weight;
+
+        public Person(String Name, String Weight) {
+            this.Name = Name;
+            this.Weight = Weight;
+        }
+
+        public String getName() {
+
+            return Name;
+        }
+
+        public void setName(String Name) {
+            notifyListeners(
+                    this,
+                    NAME,
+                    this.Name,
+                    this.Name = Name);
+
+        }
+
+        public String getWeight() {
+            return Weight;
+        }
+
+        public void setWeight(String Weight) {
+            notifyListeners(
+                    this,
+                    WEIGHT,
+                    this.Weight,
+                    this.Weight = Weight);
+        }
+    }
+
+    public List<Animal> getAnimals() {
+        return animals;
+    }
+
+    public MyModel() {
+        animals.add(new Animal("Alex", "50kg"));
+        animals.add(new Animal("Jim", "61kg"));
+    }
+
+    private void notifyListeners(Object object, String property, String oldValue, String newValue) {
+        for (PropertyChangeListener name : listener) {
+            name.propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
+        }
+    }
+
+    public void addChangeListener(PropertyChangeListener newListener) {
+        listener.add(newListener);
+    }
+
+}
+
+
+public class MyObserver implements PropertyChangeListener {
+    public MyObserver(MyModel model) {
+        model.addChangeListener(this);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent event) {
+        System.out.println("Changed property: " + event.getPropertyName() + " [old -> "
+                + event.getOldValue() + "] | [new -> " + event.getNewValue() +"]");
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+        MyModel model = new MyModel();
+        MyObserver observer = new MyObserver(model);
+        for (Animal animal : model.getAnimals()) {
+            animal.setWeight(person.getWeight() + "1");
+        }
+        for (Animal animal : model.getAnimals()) {
+            animal.setName(animal.getName() + "1");
+        }
+    }
+}
